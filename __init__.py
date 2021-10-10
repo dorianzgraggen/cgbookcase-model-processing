@@ -12,7 +12,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 bl_info = {
-    "name" : "cgbookcase-addon-processing",
+    "name" : "cgbookcase Model Processing",
     "author" : "Dorian Zgraggen",
     "description" : "",
     "blender" : (2, 80, 0),
@@ -23,8 +23,37 @@ bl_info = {
 }
 
 import bpy
+import pymeshlab
 
-# EXPORTING
+
+# =================================================================
+# PROPERTY GROUPS
+
+class SimplifyPropertyGroup(bpy.types.PropertyGroup):
+    target_face_number: bpy.props.IntProperty( 
+        name="Target Face Number",
+        description="",
+        default=5000,
+        min=1,
+        )
+    ratio: bpy.props.FloatProperty( 
+        name="Ratio per step",
+        description="",
+        default=0.5,
+        min=0,
+        max=1,
+        )
+    target_face_number: bpy.props.IntProperty( 
+        name="Target Face Number",
+        description="",
+        default=5000,
+        min=1,
+        )
+    
+
+# =================================================================
+# OPERATORS
+
 class OP_EXPORT_MESH(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "cgb_model.export"
@@ -32,19 +61,45 @@ class OP_EXPORT_MESH(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        return context.active_object is not Noneq
+        return context.active_object is not None
 
     def execute(self, context):
         bpy.ops.export_scene.obj(
-            filepath = "X:/cgbookcase/models/wip/Fruits_01/RedApple01/02_blender/cgbookcase Mesh Processing/highres.obj",
+            filepath = "X:/cgbookcase/models/wip/Fruits_01/RedApple01/02_blender/cgbookcase Mesh Processing/original.obj",
             use_selection = True
         )
 
         return {'FINISHED'}
 
 
-class MENU_EXPORT_MESH(bpy.types.Panel):
-    bl_label = "Scene"
+class OP_SIMPLIFY(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "cgb_model.simplify"
+    bl_label = "Simplify"
+
+    target_face_number: bpy.props.IntProperty(
+        name="Target Face Number",
+        default = 5000
+    )
+
+    def execute(self, context):
+        print(self.target_face_number)
+
+        # ms = pymeshlab.MeshSet()
+        # ms.load_new_mesh('"X:/cgbookcase/models/wip/Fruits_01/RedApple01/02_blender/cgbookcase Mesh Processing/original.obj"')
+
+        # ms.simplification_quadric_edge_collapse_decimation(targetfacenum = self.target_face_number)
+
+        # ms.save_current_mesh('simplified.obj')
+
+        return {'FINISHED'}
+
+
+# =================================================================
+# Panels
+
+class PANEL_PREPARE(bpy.types.Panel):
+    bl_label = "Prepare"
     bl_category = "cgbookcase Mesh Processing"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -55,25 +110,78 @@ class MENU_EXPORT_MESH(bpy.types.Panel):
         row = layout.row()
 
         if len(context.selected_objects) > 0:
-            row.operator("cgb_model.export", icon="SPHERE")
+            props = row.operator("cgb_model.export", icon="EXPORT")
         else:
             row.label(text='No active selection')
 
-classes = (OP_EXPORT_MESH, MENU_EXPORT_MESH)
+class PANEL_SIMPLIFY(bpy.types.Panel):
+    bl_label = "Simplify"
+    bl_category = "cgbookcase Mesh Processing"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+
+    def draw(self, context):
+        layout = self.layout
+        options = context.scene.simplifyPropertyGroupInstance
+        
+        col = layout.column(align=True)
+
+        row = col.row()
+        row.prop(options, "target_face_number")
+
+        row = col.row()
+        props = row.operator("cgb_model.simplify", icon="MOD_SIMPLIFY")
+        props.target_face_number = options.target_face_number
+
+
+
+class PANEL_BAKE(bpy.types.Panel):
+    bl_label = "Bake"
+    bl_category = "cgbookcase Mesh Processing"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+
+    def draw(self, context):  
+        layout = self.layout
+        
+        row = layout.row()
+
+        row.operator("cgb_model.simplify", icon="MOD_SIMPLIFY")
+
+
+class PANEL_EXPORT(bpy.types.Panel):
+    bl_label = "Export"
+    bl_category = "cgbookcase Mesh Processing"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+
+    def draw(self, context):
+        layout = self.layout
+        
+        row = layout.row()
+
+        row.operator("cgb_model.simplify", icon="MOD_SIMPLIFY")
+
+
+
+
+# =================================================================
+
+
+classes = (OP_EXPORT_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, PANEL_BAKE, PANEL_EXPORT, SimplifyPropertyGroup)
 
 def register():
     for c in classes:
         bpy.utils.register_class(c)
-    
-    bpy.types.VIEW3D_MT_add.append(MENU_EXPORT_MESH)
-        
+
+    bpy.types.Scene.simplifyPropertyGroupInstance = bpy.props.PointerProperty(
+            type=SimplifyPropertyGroup)
 
 def unregister():
     for c in classes:
         bpy.utils.unregister_class(c)
-
-    bpy.types.VIEW3D_MT_add.remove(MENU_EXPORT_MESH)
-
+    
+    del bpy.types.Scene.simplifyPropertyGroupInstance
         
 if __name__ == "__main__":
     register()
