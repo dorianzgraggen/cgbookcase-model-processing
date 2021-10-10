@@ -22,8 +22,58 @@ bl_info = {
     "category" : "Generic"
 }
 
+import bpy
+
+# EXPORTING
+class OP_EXPORT_MESH(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "cgb_model.export"
+    bl_label = "Export Mesh"
+
+    @classmethod
+    def poll(cls, context):
+        return context.active_object is not Noneq
+
+    def execute(self, context):
+        bpy.ops.export_scene.obj(
+            filepath = "X:/cgbookcase/models/wip/Fruits_01/RedApple01/02_blender/cgbookcase Mesh Processing/highres.obj",
+            use_selection = True
+        )
+
+        return {'FINISHED'}
+
+
+class MENU_EXPORT_MESH(bpy.types.Panel):
+    bl_label = "Scene"
+    bl_category = "cgbookcase Mesh Processing"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+
+    def draw(self, context):
+        layout = self.layout
+        
+        row = layout.row()
+
+        if len(context.selected_objects) > 0:
+            row.operator("cgb_model.export", icon="SPHERE")
+        else:
+            row.label(text='No active selection')
+
+classes = (OP_EXPORT_MESH, MENU_EXPORT_MESH)
+
 def register():
-    ...
+    for c in classes:
+        bpy.utils.register_class(c)
+    
+    bpy.types.VIEW3D_MT_add.append(MENU_EXPORT_MESH)
+        
 
 def unregister():
-    ...
+    for c in classes:
+        bpy.utils.unregister_class(c)
+
+    bpy.types.VIEW3D_MT_add.remove(MENU_EXPORT_MESH)
+
+        
+if __name__ == "__main__":
+    register()
