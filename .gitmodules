@@ -1,3 +1,0 @@
-[submodule "dependencies/PyMeshLab"]
-	path = dependencies/PyMeshLab
-	url = https://github.com/cnr-isti-vclab/PyMeshLab
