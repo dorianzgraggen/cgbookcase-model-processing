@@ -28,8 +28,8 @@ class PANEL_LOD(bpy.types.Panel):
             row = col.row()
             props = row.operator("cgb_model.create_lods", icon="FORCE_LENNARDJONES")
             props.target_face_number = options.target_face_number
-            props.ratio = options.target_face_number
-            props.min_face_number = options.target_face_number
+            props.ratio = options.ratio
+            props.min_face_number = options.min_face_number
         else:
             row = layout.row()
             row.label(text='Write base mesh first.')
