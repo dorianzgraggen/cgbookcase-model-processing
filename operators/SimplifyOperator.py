@@ -1,4 +1,6 @@
-import bpy
+from genericpath import getmtime
+import bpy, pymeshlab, os
+from .. import util;
 
 class OP_SIMPLIFY(bpy.types.Operator):
     """Tooltip"""
@@ -11,13 +13,24 @@ class OP_SIMPLIFY(bpy.types.Operator):
     )
 
     def execute(self, context):
-        print(self.target_face_number)
 
-        # ms = pymeshlab.MeshSet()
-        # ms.load_new_mesh('"X:/cgbookcase/models/wip/Fruits_01/RedApple01/02_blender/cgbookcase Mesh Processing/original.obj"')
+        ms = pymeshlab.MeshSet()
 
-        # ms.simplification_quadric_edge_collapse_decimation(targetfacenum = self.target_face_number)
+        ms.load_new_mesh(util.get_mesh_path())
 
-        # ms.save_current_mesh('simplified.obj')
+        print("simplifying...")
+        ms.simplification_quadric_edge_collapse_decimation(targetfacenum = self.target_face_number)
+
+        # for some reason my PC crashes when saving as obj
+        print("saving...")
+        ms.save_current_mesh(util.get_simplified_mesh_data())
+        
+
+        print("importing...")
+        bpy.ops.import_mesh.ply(filepath=util.get_simplified_mesh_data())
+        bpy.ops.object.shade_smooth()
+        context.active_object.name = "Simplified"
+
+        print("done")
 
         return {'FINISHED'}
