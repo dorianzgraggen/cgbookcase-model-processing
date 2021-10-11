@@ -1,5 +1,5 @@
 from genericpath import getmtime
-import bpy, pymeshlab, os
+import bpy, pymeshlab, os, math
 from .. import util;
 
 class OP_SIMPLIFY(bpy.types.Operator):
@@ -30,6 +30,8 @@ class OP_SIMPLIFY(bpy.types.Operator):
         bpy.ops.import_mesh.ply(filepath=util.get_simplified_mesh_data())
         bpy.ops.object.shade_smooth()
         context.active_object.name = "Simplified"
+        context.active_object.rotation_euler[0] = math.pi / 2
+        # context.active_object.transform_apply(location=True, rotation=True, scale=True)
 
         print("done")
 
