@@ -26,7 +26,10 @@ import bpy
 import pymeshlab
 import os.path
 
+# Operators
 from .operators.WriteBaseMeshOperator import OP_WRITE_BASE_MESH
+from .operators.SimplifyOperator import OP_SIMPLIFY
+from .operators.LodOperator import OP_LOD
 
 # =================================================================
 # FUNCTIONS
@@ -68,65 +71,6 @@ class LODPropertyGroup(bpy.types.PropertyGroup):
         min=1,
     )
     
-
-# =================================================================
-# OPERATORS
-
-
-class OP_SIMPLIFY(bpy.types.Operator):
-    """Tooltip"""
-    bl_idname = "cgb_model.simplify"
-    bl_label = "Simplify"
-
-    target_face_number: bpy.props.IntProperty(
-        name="Target Face Number",
-        default = 5000
-    )
-
-    def execute(self, context):
-        print(self.target_face_number)
-
-        # ms = pymeshlab.MeshSet()
-        # ms.load_new_mesh('"X:/cgbookcase/models/wip/Fruits_01/RedApple01/02_blender/cgbookcase Mesh Processing/original.obj"')
-
-        # ms.simplification_quadric_edge_collapse_decimation(targetfacenum = self.target_face_number)
-
-        # ms.save_current_mesh('simplified.obj')
-
-        return {'FINISHED'}
-
-
-class OP_LOD(bpy.types.Operator):
-    """Tooltip"""
-    bl_idname = "cgb_model.create_lods"
-    bl_label = "Create LODs"
-
-    target_face_number: bpy.props.IntProperty( 
-        name="Target Face Number",
-        description="",
-        default=5000,
-        min=1,
-    )
-    ratio: bpy.props.FloatProperty( 
-        name="Ratio per step",
-        description="",
-        default=0.5,
-        min=0,
-        max=1,
-    )
-    min_face_number: bpy.props.IntProperty( 
-        name="Target Face Number",
-        description="",
-        default=5000,
-        min=1,
-    )
-
-    def execute(self, context):
-        print(self.target_face_number)
-        print(self.ratio)
-        print(self.min_face_number)
-
-        return {'FINISHED'}
 
 
 # =================================================================
