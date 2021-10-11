@@ -24,6 +24,15 @@ bl_info = {
 
 import bpy
 import pymeshlab
+import os.path
+from pathlib import Path
+
+# =================================================================
+# FUNCTIONS
+
+def base_mesh_exists():
+    path = bpy.path.abspath("//_cgbMeshProcessing/original.obj")
+    return os.path.isfile(path)
 
 
 # =================================================================
@@ -72,8 +81,9 @@ class OP_WRITE_BASE_MESH(bpy.types.Operator):
         return context.active_object is not None
 
     def execute(self, context):
+        Path(bpy.path.abspath("//_cgbMeshProcessing/")).mkdir(parents=True, exist_ok=True)
         bpy.ops.export_scene.obj(
-            filepath = "X:/cgbookcase/models/wip/Fruits_01/RedApple01/02_blender/cgbookcase Mesh Processing/original.obj",
+            filepath = bpy.path.abspath("//_cgbMeshProcessing/original.obj"),
             use_selection = True
         )
 
@@ -140,7 +150,7 @@ class OP_LOD(bpy.types.Operator):
 # Panels
 
 class PANEL_PREPARE(bpy.types.Panel):
-    bl_label = "Prepare"
+    bl_label = "Base Mesh"
     bl_category = "cgbookcase Mesh Processing"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -153,28 +163,33 @@ class PANEL_PREPARE(bpy.types.Panel):
         if len(context.selected_objects) > 0:
             props = row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL")
         else:
-            row.label(text='No active selection')
+            row.label(text='Select an object to write base mesh.')
 
 
 
 class PANEL_SIMPLIFY(bpy.types.Panel):
-    bl_label = "Simplify"
+    bl_label = "Simplification"
     bl_category = "cgbookcase Mesh Processing"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
 
     def draw(self, context):
         layout = self.layout
-        options = context.scene.simplifyPropertyGroupInstance
-        
-        col = layout.column()
 
-        row = col.row()
-        row.prop(options, "target_face_number")
+        if base_mesh_exists():
+            options = context.scene.simplifyPropertyGroupInstance
+            
+            col = layout.column()
 
-        row = col.row()
-        props = row.operator("cgb_model.simplify", icon="MOD_SIMPLIFY")
-        props.target_face_number = options.target_face_number
+            row = col.row()
+            row.prop(options, "target_face_number")
+
+            row = col.row()
+            props = row.operator("cgb_model.simplify", icon="MOD_SIMPLIFY")
+            props.target_face_number = options.target_face_number
+        else:
+            row = layout.row()
+            row.label(text='Write base mesh first.')
 
 
 
@@ -188,29 +203,33 @@ class PANEL_LOD(bpy.types.Panel):
         layout = self.layout
         options = context.scene.lodPropertyGroupInstance
         
-        col = layout.column(align=True)
+        if base_mesh_exists():
+            col = layout.column(align=True)
 
-        row = col.row()
-        row.prop(options, "target_face_number")
+            row = col.row()
+            row.prop(options, "target_face_number")
 
-        row = col.row()
-        row.prop(options, "ratio")
+            row = col.row()
+            row.prop(options, "ratio")
 
-        row = col.row()
-        row.prop(options, "min_face_number")
+            row = col.row()
+            row.prop(options, "min_face_number")
 
-        col = layout.column(align=True)
+            col = layout.column(align=True)
 
-        row = col.row()
-        props = row.operator("cgb_model.create_lods", icon="FORCE_LENNARDJONES")
-        props.target_face_number = options.target_face_number
-        props.ratio = options.target_face_number
-        props.min_face_number = options.target_face_number
+            row = col.row()
+            props = row.operator("cgb_model.create_lods", icon="FORCE_LENNARDJONES")
+            props.target_face_number = options.target_face_number
+            props.ratio = options.target_face_number
+            props.min_face_number = options.target_face_number
+        else:
+            row = layout.row()
+            row.label(text='Write base mesh first.')
 
 
 
 class PANEL_BAKE(bpy.types.Panel):
-    bl_label = "Bake"
+    bl_label = "Baking"
     bl_category = "cgbookcase Mesh Processing"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -218,9 +237,13 @@ class PANEL_BAKE(bpy.types.Panel):
     def draw(self, context):  
         layout = self.layout
         
-        row = layout.row()
+        if base_mesh_exists():
+            row = layout.row()
+            row.operator("cgb_model.simplify", icon="RENDER_STILL", text="Bake  ")
+        else:
+            row = layout.row()
+            row.label(text='Write base mesh first.')
 
-        row.operator("cgb_model.simplify", icon="RENDER_STILL", text="Bake  ")
 
 
 class PANEL_EXPORT(bpy.types.Panel):
@@ -232,20 +255,24 @@ class PANEL_EXPORT(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         
-        column = layout.column(align=True)
+        if base_mesh_exists():
+            column = layout.column(align=True)
 
-        row = column.row()
-        row.operator("cgb_model.simplify", icon="EXPORT", text="Export FBX")
+            row = column.row()
+            row.operator("cgb_model.simplify", icon="EXPORT", text="Export FBX")
 
-        row = column.row()
-        row.operator("cgb_model.simplify", icon="EXPORT", text="Export GLTF")
+            row = column.row()
+            row.operator("cgb_model.simplify", icon="EXPORT", text="Export GLTF")
 
-        row = column.row()
-        row.operator("cgb_model.simplify", icon="EXPORT", text="Export .blend")
+            row = column.row()
+            row.operator("cgb_model.simplify", icon="EXPORT", text="Export .blend")
 
-        row = layout.row()
-        row.operator("cgb_model.simplify", icon="EXPORT", text="Export all")
-        
+            row = layout.row()
+            row.operator("cgb_model.simplify", icon="EXPORT", text="Export all")
+        else:
+            row = layout.row()
+            row.label(text='Write base mesh first.')
+
 
 # =================================================================
 
