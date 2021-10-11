@@ -69,6 +69,7 @@ class LODPropertyGroup(bpy.types.PropertyGroup):
         default=50,
         min=1,
     )
+
     
 # =================================================================
 
