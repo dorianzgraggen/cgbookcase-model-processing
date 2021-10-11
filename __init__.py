@@ -62,10 +62,10 @@ class LODPropertyGroup(bpy.types.PropertyGroup):
 # =================================================================
 # OPERATORS
 
-class OP_EXPORT_MESH(bpy.types.Operator):
+class OP_WRITE_BASE_MESH(bpy.types.Operator):
     """Tooltip"""
-    bl_idname = "cgb_model.export"
-    bl_label = "Export Mesh"
+    bl_idname = "cgb_model.write_base_mesh"
+    bl_label = "Write Base Mesh"
 
     @classmethod
     def poll(cls, context):
@@ -151,7 +151,7 @@ class PANEL_PREPARE(bpy.types.Panel):
         row = layout.row()
 
         if len(context.selected_objects) > 0:
-            props = row.operator("cgb_model.export", icon="EXPORT")
+            props = row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL")
         else:
             row.label(text='No active selection')
 
@@ -179,7 +179,7 @@ class PANEL_SIMPLIFY(bpy.types.Panel):
 
 
 class PANEL_LOD(bpy.types.Panel):
-    bl_label = "LODs"
+    bl_label = "Levels of Detail"
     bl_category = "cgbookcase Mesh Processing"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -220,7 +220,7 @@ class PANEL_BAKE(bpy.types.Panel):
         
         row = layout.row()
 
-        row.operator("cgb_model.simplify", icon="RENDER_STILL")
+        row.operator("cgb_model.simplify", icon="RENDER_STILL", text="Bake  ")
 
 
 class PANEL_EXPORT(bpy.types.Panel):
@@ -232,14 +232,24 @@ class PANEL_EXPORT(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         
+        column = layout.column(align=True)
+
+        row = column.row()
+        row.operator("cgb_model.simplify", icon="EXPORT", text="Export FBX")
+
+        row = column.row()
+        row.operator("cgb_model.simplify", icon="EXPORT", text="Export GLTF")
+
+        row = column.row()
+        row.operator("cgb_model.simplify", icon="EXPORT", text="Export .blend")
+
         row = layout.row()
-
-        row.operator("cgb_model.simplify", icon="MOD_SIMPLIFY")
-
+        row.operator("cgb_model.simplify", icon="EXPORT", text="Export all")
+        
 
 # =================================================================
 
-classes = (OP_EXPORT_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_EXPORT, SimplifyPropertyGroup, LODPropertyGroup)
+classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_EXPORT, SimplifyPropertyGroup, LODPropertyGroup)
 
 def register():
     for c in classes:
