@@ -37,6 +37,7 @@ from .panels.ExportPanel import PANEL_EXPORT
 from .panels.LodPanel import PANEL_LOD
 from .panels.PreparePanel import PANEL_PREPARE
 from .panels.SimplifyPanel import PANEL_SIMPLIFY
+from .preferences import ExampleAddonPreferences
 
 # =================================================================
 # PROPERTY GROUPS
@@ -74,10 +75,23 @@ class LODPropertyGroup(bpy.types.PropertyGroup):
         description="",
         default=True
     )
+
+class BakePropertyGroup(bpy.types.PropertyGroup):
+    map_normal: bpy.props.BoolProperty( 
+        name="Normal (OpenGL)",
+        description="",
+        default=True,
+    )
+    map_color: bpy.props.BoolProperty( 
+        name="Base Color",
+        description="",
+        default=True,
+    )
     
+
 # =================================================================
 
-classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_EXPORT, SimplifyPropertyGroup, LODPropertyGroup)
+classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_EXPORT, SimplifyPropertyGroup, LODPropertyGroup, BakePropertyGroup, ExampleAddonPreferences)
 
 def register():
     for c in classes:
@@ -86,6 +100,7 @@ def register():
 
     bpy.types.Scene.simplifyPropertyGroupInstance = bpy.props.PointerProperty(type=SimplifyPropertyGroup)
     bpy.types.Scene.lodPropertyGroupInstance = bpy.props.PointerProperty(type=LODPropertyGroup)
+    bpy.types.Scene.bakePropertyGroupInstance = bpy.props.PointerProperty(type=BakePropertyGroup)
 
 def unregister():
     for c in classes:
@@ -93,6 +108,7 @@ def unregister():
     
     del bpy.types.Scene.simplifyPropertyGroupInstance
     del bpy.types.Scene.lodPropertyGroupInstance
+    del bpy.types.Scene.bakePropertyGroupInstance
         
 if __name__ == "__main__":
     register()
