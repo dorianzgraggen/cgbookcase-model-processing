@@ -46,8 +46,10 @@ class OP_LOD(bpy.types.Operator):
             
             ms = pymeshlab.MeshSet()
 
-            if i == 0 or (i == 1 and self.use_base_as_lod_0):
+            if i == 0:
                 path = util.get_mesh_path()
+            elif i == 1 and self.use_base_as_lod_0:
+                path = util.get_written_lod_path()
             else:
                 path = os.path.join(util.get_mesh_folder(), "lod_"  + str(i - 1) + ".ply")
 

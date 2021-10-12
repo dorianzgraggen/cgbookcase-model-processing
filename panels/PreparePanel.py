@@ -9,9 +9,13 @@ class PANEL_PREPARE(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         
-        row = layout.row()
+        col = layout.column(align=True)
+        row = col.row()
 
         if len(context.selected_objects) > 0:
-            props = row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL")
+            row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL", text="Write Source Mesh")
+            row = col.row()
+            props = row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL", text="Write LOD0 Mesh")
+            props.file_name = "lod0"
         else:
             row.label(text='Select an object to write base mesh.')

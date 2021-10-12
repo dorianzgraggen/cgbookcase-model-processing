@@ -7,6 +7,8 @@ def base_mesh_exists():
 def get_mesh_path():
     return bpy.path.abspath("//_cgbMeshProcessing/original.obj")
 
+def get_written_lod_path():
+    return bpy.path.abspath("//_cgbMeshProcessing/lod0.obj")
     
 def get_mesh_folder():
     return bpy.path.abspath("//_cgbMeshProcessing/")
