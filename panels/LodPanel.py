@@ -14,14 +14,20 @@ class PANEL_LOD(bpy.types.Panel):
         if base_mesh_exists():
             col = layout.column(align=True)
 
+
             row = col.row()
-            row.prop(options, "target_face_number")
+            row.prop(options, "use_base_as_lod_0")
+
+            if not options.use_base_as_lod_0:
+                row = col.row()
+                row.prop(options, "target_face_number")
 
             row = col.row()
             row.prop(options, "ratio")
 
             row = col.row()
             row.prop(options, "min_face_number")
+
 
             col = layout.column(align=True)
 
@@ -30,6 +36,8 @@ class PANEL_LOD(bpy.types.Panel):
             props.target_face_number = options.target_face_number
             props.ratio = options.ratio
             props.min_face_number = options.min_face_number
+            props.use_base_as_lod_0 = options.use_base_as_lod_0
+            
         else:
             row = layout.row()
             row.label(text='Write base mesh first.')

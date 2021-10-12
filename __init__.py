@@ -69,7 +69,11 @@ class LODPropertyGroup(bpy.types.PropertyGroup):
         default=50,
         min=1,
     )
-
+    use_base_as_lod_0: bpy.props.BoolProperty(
+        name="Use Base Mesh as LOD 0",
+        description="",
+        default=True
+    )
     
 # =================================================================
 
