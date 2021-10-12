@@ -89,7 +89,66 @@ class BakePropertyGroup(bpy.types.PropertyGroup):
         description="",
         default=True,
     )
-    
+    map_ao: bpy.props.BoolProperty( 
+        name="Ambient Occlusion",
+        description="",
+        default=True,
+    )
+    map_height: bpy.props.BoolProperty( 
+        name="Height",
+        description="",
+        default=True,
+    )
+    map_thickness: bpy.props.BoolProperty( 
+        name="Thickness",
+        description="",
+        default=True,
+    )
+    map_cavity: bpy.props.BoolProperty( 
+        name="Cavity",
+        description="",
+        default=True,
+    )
+    map_convexity: bpy.props.BoolProperty( 
+        name="Convexity",
+        description="",
+        default=True,
+    )
+
+
+    resolution_x: bpy.props.EnumProperty(
+        name="Width",
+        description="",
+        items=[
+            ("128", "128 px", ""),
+            ("256", "256 px", ""),
+            ("512", "512 px", ""),
+            ("1024", "1024 px", ""),
+            ("2048", "2048 px", ""),
+            ("4096", "4096 px", ""),
+            ("8192", "8192 px", ""),
+            ("16384", "16384 px", ""),
+        ],
+        default="2048"
+    )
+
+    resolution_y: bpy.props.EnumProperty(
+        name="Height",
+        description="",
+        items=[
+            ("128", "128 px", ""),
+            ("256", "256 px", ""),
+            ("512", "512 px", ""),
+            ("1024", "1024 px", ""),
+            ("2048", "2048 px", ""),
+            ("4096", "4096 px", ""),
+            ("8192", "8192 px", ""),
+            ("16384", "16384 px", ""),
+        ],
+        default="2048"
+    )
+
+
 
 # =================================================================
 

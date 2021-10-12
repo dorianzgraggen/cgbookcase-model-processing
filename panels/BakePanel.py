@@ -13,7 +13,7 @@ class PANEL_BAKE(bpy.types.Panel):
         addon_prefs = context.preferences.addons[root].preferences
         options = context.scene.bakePropertyGroupInstance
         
-        if not addon_prefs.filepath:
+        if not addon_prefs.filepath and False:
             col = layout.column(align=True)
             col.label(text="xNormal path is not set")
             col.label(text="(Preferences > Addons > cgbModelProcessing")
@@ -21,12 +21,32 @@ class PANEL_BAKE(bpy.types.Panel):
             row = layout.row()
             row.label(text='Write base mesh first.')
         else:
-            row = layout.row()
-            row.prop(options, "map_color")
 
-            row = layout.row()
-            row.prop(options, "map_normal")
+            # Resolution
+            col = layout.column()
 
+            row = col.row()
+            row.label(text="Resolution")
+
+            row = col.row()
+            row.prop(options, "resolution_x")
+
+            row = col.row()
+            row.prop(options, "resolution_y")
+
+            col = layout.column()
+
+
+            # Maps
+            row = col.row()
+            row.label(text="Maps")
+            maps = ["color", "normal", "ao", "height", "thickness", "cavity", "convexity"]
+
+            for m in maps:
+                row = col.row()
+                row.prop(options, "map_" + m)
+
+            # Run          
             row = layout.row()
             props = row.operator("cgb_model.bake", icon="RENDER_STILL", text="Bake  ")
 
