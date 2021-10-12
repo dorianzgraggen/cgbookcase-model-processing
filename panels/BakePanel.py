@@ -13,7 +13,7 @@ class PANEL_BAKE(bpy.types.Panel):
         addon_prefs = context.preferences.addons[root].preferences
         options = context.scene.bakePropertyGroupInstance
         
-        if not addon_prefs.filepath and False:
+        if not addon_prefs.filepath:
             col = layout.column(align=True)
             col.label(text="xNormal path is not set")
             col.label(text="(Preferences > Addons > cgbModelProcessing")
@@ -28,5 +28,5 @@ class PANEL_BAKE(bpy.types.Panel):
             row.prop(options, "map_normal")
 
             row = layout.row()
-            props = row.operator("cgb_model.simplify", icon="RENDER_STILL", text="Bake  ")
+            props = row.operator("cgb_model.bake", icon="RENDER_STILL", text="Bake  ")
 

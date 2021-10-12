@@ -30,6 +30,7 @@ import os.path
 from .operators.WriteBaseMeshOperator import OP_WRITE_BASE_MESH
 from .operators.SimplifyOperator import OP_SIMPLIFY
 from .operators.LodOperator import OP_LOD
+from .operators.BakeOperator import OP_BAKE
 
 # Panels
 from .panels.BakePanel import PANEL_BAKE
@@ -37,6 +38,7 @@ from .panels.ExportPanel import PANEL_EXPORT
 from .panels.LodPanel import PANEL_LOD
 from .panels.PreparePanel import PANEL_PREPARE
 from .panels.SimplifyPanel import PANEL_SIMPLIFY
+
 from .preferences import ExampleAddonPreferences
 
 # =================================================================
@@ -91,7 +93,7 @@ class BakePropertyGroup(bpy.types.PropertyGroup):
 
 # =================================================================
 
-classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_EXPORT, SimplifyPropertyGroup, LODPropertyGroup, BakePropertyGroup, ExampleAddonPreferences)
+classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_EXPORT, OP_BAKE, SimplifyPropertyGroup, LODPropertyGroup, BakePropertyGroup, ExampleAddonPreferences)
 
 def register():
     for c in classes:

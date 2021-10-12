@@ -2,16 +2,20 @@ from genericpath import getmtime
 import bpy, os, math
 from .. import util;
 
-class OP_SIMPLIFY(bpy.types.Operator):
+class OP_BAKE(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "cgb_model.bake"
-    bl_label = "Simplify"
-
-    target_face_number: bpy.props.IntProperty(
-        name="Target Face Number",
-        default = 5000
-    )
+    bl_label = "Bake"
 
     def execute(self, context):
+
+        # save selected as obj
+        # bpy.ops.export_scene.obj(
+        #     filepath = bpy.path.abspath("//_cgbMeshProcessing/" + "bake_target" + ".obj"),
+        #     use_selection = True
+        # )
+
+        os.system(util.get_addon_prefs().filepath + " " + util.get_xnormal_config())
+
 
         return {'FINISHED'}
