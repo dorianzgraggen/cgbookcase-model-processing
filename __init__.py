@@ -33,7 +33,7 @@ from .operators.LodOperator import OP_LOD
 from .operators.BakeOperator import OP_BAKE
 
 # Panels
-from .panels.BakePanel import PANEL_BAKE
+from .panels.BakePanel import PANEL_BAKE, PANEL_BAKE_MAPS, PANEL_BAKE_QUALITY
 from .panels.ExportPanel import PANEL_EXPORT
 from .panels.LodPanel import PANEL_LOD
 from .panels.PreparePanel import PANEL_PREPARE
@@ -148,11 +148,32 @@ class BakePropertyGroup(bpy.types.PropertyGroup):
         default="2048"
     )
 
+    antialias: bpy.props.EnumProperty(
+        name="Anti-aliasing",
+        description="",
+        items=[
+            ("1", "1x", ""),
+            ("2", "2x", ""),
+            ("4", "4x", ""),
+        ],
+        default="1"
+    )
+
+    img_format: bpy.props.EnumProperty(
+        name="Format",
+        description="",
+        items=[
+            ("tiff", "16-bit TIFF", ""),
+            ("png", "8-bit PNG", ""),
+        ],
+        default="tiff"
+    )
+
 
 
 # =================================================================
 
-classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_EXPORT, OP_BAKE, SimplifyPropertyGroup, LODPropertyGroup, BakePropertyGroup, ExampleAddonPreferences)
+classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, PANEL_SIMPLIFY, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_BAKE_QUALITY, PANEL_BAKE_MAPS, PANEL_EXPORT, OP_BAKE, SimplifyPropertyGroup, LODPropertyGroup, BakePropertyGroup, ExampleAddonPreferences)
 
 def register():
     for c in classes:

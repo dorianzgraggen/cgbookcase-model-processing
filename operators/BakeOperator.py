@@ -31,6 +31,7 @@ def replace():
         line = line.replace("__TARGET_MESH_PATH", "X:\\cgbookcase\\models\\addon\\blend-test\\_cgbMeshProcessing\\target.obj")
         line = line.replace("__WIDTH", "2048")
         line = line.replace("__HEIGHT", "2048")
+        line = line.replace("__ANTIALIAS", "1")
         line = line.replace("__EDGE_PADDING", "16")
         line = line.replace("__MAP_FILE", "X:\\cgbookcase\\models\\addon\\blend-test\\_cgbMeshProcessing\\maps\\bake_.tif")
         line = line.replace("__SOURCE_MESH_PATH", "X:\\cgbookcase\\models\\addon\\blend-test\\_cgbMeshProcessing\\original.obj")
