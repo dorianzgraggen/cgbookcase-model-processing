@@ -18,7 +18,7 @@ class PANEL_BAKE(PANEL_PARENT):
         addon_prefs = context.preferences.addons[root].preferences
         options = context.scene.bakePropertyGroupInstance
         
-        if not addon_prefs.filepath and False:
+        if not addon_prefs.filepath and True:
             col = layout.column(align=True)
             col.label(text="xNormal path is not set")
             col.label(text="(Preferences > Addons > cgbModelProcessing")

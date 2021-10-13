@@ -26,7 +26,7 @@ def get_addon_path():
     return pathlib.Path(__file__).parent.resolve()
 
 def get_xnormal_config():
-    return os.path.join(pathlib.Path(__file__).parent.resolve(), "xnormal.xml")
+    return os.path.join(pathlib.Path(__file__).parent.resolve(), "xnormal_temp.xml")
 
 def addon_file_to_abs_path(filename):
     return os.path.join(pathlib.Path(__file__).parent.resolve(), filename)
