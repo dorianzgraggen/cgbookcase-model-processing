@@ -4,6 +4,10 @@ def base_mesh_exists():
     path = bpy.path.abspath("//_cgbMeshProcessing/original.obj")
     return os.path.isfile(path)
 
+def lod_mesh_exists():
+    path = bpy.path.abspath("//_cgbMeshProcessing/original.obj")
+    return os.path.isfile(path)
+
 def get_mesh_path():
     return bpy.path.abspath("//_cgbMeshProcessing/original.obj")
 

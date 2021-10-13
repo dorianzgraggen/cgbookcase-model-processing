@@ -1,5 +1,5 @@
 import bpy
-from ..util import base_mesh_exists 
+from ..util import base_mesh_exists, lod_mesh_exists 
 
 class PANEL_LOD(bpy.types.Panel):
     bl_label = "Levels of Detail"
@@ -11,33 +11,37 @@ class PANEL_LOD(bpy.types.Panel):
         layout = self.layout
         options = context.scene.lodPropertyGroupInstance
         
-        if base_mesh_exists():
-            col = layout.column(align=True)
+        col = layout.column(align=True)
 
 
+        row = col.row()
+        row.prop(options, "use_base_as_lod_0")
+
+        if not options.use_base_as_lod_0:
             row = col.row()
-            row.prop(options, "use_base_as_lod_0")
+            row.prop(options, "target_face_number")
 
-            if not options.use_base_as_lod_0:
-                row = col.row()
-                row.prop(options, "target_face_number")
+        row = col.row()
+        row.prop(options, "ratio")
 
-            row = col.row()
-            row.prop(options, "ratio")
-
-            row = col.row()
-            row.prop(options, "min_face_number")
+        row = col.row()
+        row.prop(options, "min_face_number")
 
 
-            col = layout.column(align=True)
+        col = layout.column(align=True)
 
-            row = col.row()
+        row = col.row()
+
+        if (options.use_base_as_lod_0 and lod_mesh_exists()) or (not options.use_base_as_lod_0 and base_mesh_exists()):
             props = row.operator("cgb_model.create_lods", icon="FORCE_LENNARDJONES")
             props.target_face_number = options.target_face_number
             props.ratio = options.ratio
             props.min_face_number = options.min_face_number
             props.use_base_as_lod_0 = options.use_base_as_lod_0
             
+        elif options.use_base_as_lod_0:
+            row = layout.row()
+            row.label(text='Write LOD mesh first.')
         else:
             row = layout.row()
             row.label(text='Write base mesh first.')
