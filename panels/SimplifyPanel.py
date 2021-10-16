@@ -18,6 +18,22 @@ class PANEL_SIMPLIFY(bpy.types.Panel):
             row = col.row()
             row.prop(options, "target_face_number")
 
+            col.separator(factor=.1)
+
+            col = layout.column()
+
+            row = col.row()
+            row.prop(options, "use_detail_mask")
+
+            if options.use_detail_mask:
+                row = col.row()
+                row.prop(context.scene, "cgb_detail_mask")
+
+
+            col.separator(factor=.1)
+            
+            col = layout.column()
+
             row = col.row()
             props = row.operator("cgb_model.simplify", icon="MOD_SIMPLIFY")
             props.target_face_number = options.target_face_number

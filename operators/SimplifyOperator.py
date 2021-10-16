@@ -13,13 +13,30 @@ class OP_SIMPLIFY(bpy.types.Operator):
     )
 
     def execute(self, context):
+        options = context.scene.simplifyPropertyGroupInstance
 
         ms = pymeshlab.MeshSet()
 
         ms.load_new_mesh(util.get_mesh_path())
 
+
+        if options.use_detail_mask:
+            # TODO: save mesh
+
+            print("loading detail...")
+            ms.load_new_mesh(util.file_to_abs_path("detail_mask.obj"))
+            ms.set_current_mesh(0)
+
+            print("calculating weights...")
+            ms.distance_from_reference_mesh(measuremesh=0, refmesh=1)
+            ms.per_vertex_quality_function(q="min(max(0, q) * (1 / " + str(0.2) + "), 1)")
+
+
         print("simplifying...")
-        ms.simplification_quadric_edge_collapse_decimation(targetfacenum = self.target_face_number)
+        ms.simplification_quadric_edge_collapse_decimation(
+            targetfacenum = self.target_face_number,
+            qualityweight = options.use_detail_mask
+        )
 
         # for some reason my PC crashes when saving as obj
         print("saving...")

@@ -52,6 +52,13 @@ class SimplifyPropertyGroup(bpy.types.PropertyGroup):
         default=5000,
         min=1,
     )
+    use_detail_mask: bpy.props.BoolProperty(
+        name="Use Detail Mask",
+        description="",
+        default=False
+    )
+
+    test = bpy.props.PointerProperty(type=bpy.types.Object)
 
 class LODPropertyGroup(bpy.types.PropertyGroup):
     target_face_number: bpy.props.IntProperty( 
@@ -184,6 +191,7 @@ def register():
     bpy.types.Scene.simplifyPropertyGroupInstance = bpy.props.PointerProperty(type=SimplifyPropertyGroup)
     bpy.types.Scene.lodPropertyGroupInstance = bpy.props.PointerProperty(type=LODPropertyGroup)
     bpy.types.Scene.bakePropertyGroupInstance = bpy.props.PointerProperty(type=BakePropertyGroup)
+    bpy.types.Scene.cgb_detail_mask = bpy.props.PointerProperty(type=bpy.types.Object, name="Detail Mask")
 
 def unregister():
     for c in classes:
@@ -192,6 +200,7 @@ def unregister():
     del bpy.types.Scene.simplifyPropertyGroupInstance
     del bpy.types.Scene.lodPropertyGroupInstance
     del bpy.types.Scene.bakePropertyGroupInstance
+    del bpy.types.Scene.cgb_detail_mask
         
 if __name__ == "__main__":
     register()
