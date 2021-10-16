@@ -27,10 +27,7 @@ class OP_SIMPLIFY(bpy.types.Operator):
             print("saving " + str(context.scene.cgb_detail_mask))
 
             context.scene.cgb_detail_mask.select_set(True)
-
             context.view_layer.objects.active.select_set(False)
-
-
 
             Path(bpy.path.abspath("//_cgbMeshProcessing/")).mkdir(parents=True, exist_ok=True)
             bpy.ops.export_scene.obj(
@@ -38,14 +35,13 @@ class OP_SIMPLIFY(bpy.types.Operator):
                 use_selection = True
             )
 
-
             print("loading detail...")
             ms.load_new_mesh(util.file_to_abs_path("detail_mask.obj"))
             ms.set_current_mesh(0)
 
             print("calculating weights...")
             ms.distance_from_reference_mesh(measuremesh=0, refmesh=1)
-            ms.per_vertex_quality_function(q="min(max(0, q) * (1 / " + str(0.2) + "), 1)")
+            ms.per_vertex_quality_function(q="1 - min(max(0, q) * (1 / " + str(0.2) + "), 1)")
 
 
         print("simplifying...")
