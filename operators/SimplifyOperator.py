@@ -1,6 +1,8 @@
 from genericpath import getmtime
 import bpy, pymeshlab, os, math
 from .. import util;
+from pathlib import Path
+
 
 class OP_SIMPLIFY(bpy.types.Operator):
     """Tooltip"""
@@ -22,6 +24,20 @@ class OP_SIMPLIFY(bpy.types.Operator):
 
         if options.use_detail_mask:
             # TODO: save mesh
+            print("saving " + str(context.scene.cgb_detail_mask))
+
+            context.scene.cgb_detail_mask.select_set(True)
+
+            context.view_layer.objects.active.select_set(False)
+
+
+
+            Path(bpy.path.abspath("//_cgbMeshProcessing/")).mkdir(parents=True, exist_ok=True)
+            bpy.ops.export_scene.obj(
+                filepath = bpy.path.abspath("//_cgbMeshProcessing/detail_mask.obj"),
+                use_selection = True
+            )
+
 
             print("loading detail...")
             ms.load_new_mesh(util.file_to_abs_path("detail_mask.obj"))
