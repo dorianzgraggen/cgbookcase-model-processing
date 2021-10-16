@@ -13,7 +13,13 @@ class PANEL_PREPARE(bpy.types.Panel):
         row = col.row()
 
         if len(context.selected_objects) > 0:
-            row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL", text="Write Source Mesh")
+            props = row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL", text="Write Source Mesh")
+            props.file_name = "source"
+
+            row = col.row()
+            props = row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL", text="Write Detail Mask Mesh")
+            props.file_name = "detail_mask"
+
             row = col.row()
             props = row.operator("cgb_model.write_base_mesh", icon="GREASEPENCIL", text="Write LOD0 Mesh")
             props.file_name = "lod0"
