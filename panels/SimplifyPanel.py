@@ -29,6 +29,13 @@ class PANEL_SIMPLIFY(bpy.types.Panel):
                 row = col.row()
                 row.prop(context.scene, "cgb_detail_mask")
 
+                row = col.row()
+                row.prop(options, "detail_mask_influence")
+
+                row = col.row()
+                row.prop(options, "border_smoothness")
+
+
 
             col.separator(factor=.1)
             

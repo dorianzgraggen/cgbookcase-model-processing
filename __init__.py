@@ -57,8 +57,20 @@ class SimplifyPropertyGroup(bpy.types.PropertyGroup):
         description="",
         default=False
     )
-
-    test = bpy.props.PointerProperty(type=bpy.types.Object)
+    border_smoothness: bpy.props.FloatProperty( 
+        name="Border Smoothness",
+        description="",
+        default=0.1,
+        min=0,
+        max=1,
+    )
+    detail_mask_influence: bpy.props.FloatProperty( 
+        name="Influence",
+        description="",
+        default=1,
+        min=0,
+        max=1,
+    )
 
 class LODPropertyGroup(bpy.types.PropertyGroup):
     target_face_number: bpy.props.IntProperty( 
