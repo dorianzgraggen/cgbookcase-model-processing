@@ -36,7 +36,7 @@ from .operators.DetailMaskOperator import OP_DETAIL_MASK
 # Panels
 from .panels.BakePanel import PANEL_BAKE, PANEL_BAKE_MAPS, PANEL_BAKE_QUALITY
 from .panels.ExportPanel import PANEL_EXPORT
-from .panels.LodPanel import PANEL_LOD
+from .panels.LodPanel import PANEL_LOD, PANEL_LOD_OPTIONS
 from .panels.PreparePanel import PANEL_PREPARE
 from .panels.SimplifyPanel import PANEL_SIMPLIFY, PANEL_DETAIL_MASK
 
@@ -94,6 +94,12 @@ class LODPropertyGroup(bpy.types.PropertyGroup):
     )
     use_base_as_lod_0: bpy.props.BoolProperty(
         name="Use Base Mesh as LOD 0",
+        description="",
+        default=True
+    )
+
+    keep_uvs: bpy.props.BoolProperty(
+        name="Keep UVs",
         description="",
         default=True
     )
@@ -193,7 +199,7 @@ class BakePropertyGroup(bpy.types.PropertyGroup):
 
 # =================================================================
 
-classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, OP_DETAIL_MASK, PANEL_SIMPLIFY, PANEL_DETAIL_MASK, OP_LOD, PANEL_LOD, PANEL_BAKE, PANEL_BAKE_QUALITY, PANEL_BAKE_MAPS, PANEL_EXPORT, OP_BAKE, SimplifyPropertyGroup, LODPropertyGroup, BakePropertyGroup, ExampleAddonPreferences)
+classes = (OP_WRITE_BASE_MESH, PANEL_PREPARE, OP_SIMPLIFY, OP_DETAIL_MASK, PANEL_SIMPLIFY, PANEL_DETAIL_MASK, OP_LOD, PANEL_LOD, PANEL_LOD_OPTIONS, PANEL_BAKE, PANEL_BAKE_QUALITY, PANEL_BAKE_MAPS, PANEL_EXPORT, OP_BAKE, SimplifyPropertyGroup, LODPropertyGroup, BakePropertyGroup, ExampleAddonPreferences)
 
 def register():
     for c in classes:
