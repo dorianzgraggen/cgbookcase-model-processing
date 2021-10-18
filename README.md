@@ -1,6 +1,6 @@
 ## Prerequisites
 
-This addon depends on [PyMeshLab](https://github.com/cnr-isti-vclab/PyMeshLab). The easiest way to install them is using pip
+This addon depends on [PyMeshLab](https://github.com/cnr-isti-vclab/PyMeshLab). The easiest way to install it is using pip
 
 ### Install pip
 
