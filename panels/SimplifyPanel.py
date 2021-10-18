@@ -30,7 +30,6 @@ class PANEL_SIMPLIFY(PANEL_PARENT):
             row.label(text='Write base mesh first.')
 
 
-            
 
 class PANEL_DETAIL_MASK(PANEL_PARENT):
     bl_label = "Detail Mask"
